@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banking Test Case Generator - AI-Powered Testing Tool</title>
+    <meta name="description" content="Generate comprehensive test cases for banking applications using AI">
+    <meta name="author" content="Tuan Chien Vu">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🏦</text></svg>">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #22c55e;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --border: #e5e7eb;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --radius: 0.5rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .input-section, .output-section {
+            background: var(--light);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        textarea, select, input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        textarea:focus, select:focus, input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        button {
+            flex: 1;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--dark);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--light);
+        }
+
+        .output-content {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1rem;
+            min-height: 300px;
+            max-height: 500px;
+            overflow-y: auto;
+            border: 2px solid var(--border);
+        }
+
+        .test-case {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--light);
+            border-radius: var(--radius);
+            border-left: 4px solid var(--primary);
+        }
+
+        .test-case h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .test-step {
+            margin: 0.5rem 0;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .test-step:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid var(--border);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1rem;
+            border-radius: var(--radius);
+            text-align: center;
+            border: 2px solid var(--border);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+
+        .examples {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #fef3c7;
+            border-radius: var(--radius);
+            border: 2px solid #fcd34d;
+        }
+
+        .examples h4 {
+            color: #92400e;
+            margin-bottom: 0.5rem;
+        }
+
+        .example-item {
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            background: white;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .example-item:hover {
+            background: #fef9e7;
+            transform: translateX(5px);
+        }
+
+        .footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transform: translateX(400px);
+            transition: transform 0.3s;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            background: var(--secondary);
+        }
+
+        .toast.error {
+            background: var(--danger);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏦 Banking Test Case Generator</h1>
+            <p>AI-Powered Test Case Generation for Banking Applications</p>
+            <div style="margin-top: 1rem;">
+                <span class="badge">v2.0</span>
+                <span class="badge" style="background: var(--secondary);">Frontend Only</span>
+                <span class="badge" style="background: var(--warning);">No Backend Required</span>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="input-section">
+                <h2 class="section-title">
+                    <span>📝</span> Input User Story
+                </h2>
+
+                <div class="form-group">
+                    <label for="feature">Feature/Module</label>
+                    <select id="feature">
+                        <option value="authentication">Authentication & Security</option>
+                        <option value="transfer">Money Transfer</option>
+                        <option value="payment">Bill Payment</option>
+                        <option value="account">Account Management</option>
+                        <option value="card">Card Services</option>
+                        <option value="loan">Loan Services</option>
+                        <option value="investment">Investment</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="userStory">User Story Description</label>
+                    <textarea id="userStory" placeholder="As a [user type], I want to [action] so that [benefit]...">As a customer, I want to transfer money to another account so that I can send funds quickly and securely</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="testType">Test Type</label>
+                    <select id="testType">
+                        <option value="functional">Functional Testing</option>
+                        <option value="security">Security Testing</option>
+                        <option value="performance">Performance Testing</option>
+                        <option value="usability">Usability Testing</option>
+                        <option value="integration">Integration Testing</option>
+                    </select>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-primary" onclick="generateTestCases()">
+                        <span>🚀</span> Generate Test Cases
+                    </button>
+                    <button class="btn-secondary" onclick="clearForm()">
+                        <span>🔄</span> Clear
+                    </button>
+                </div>
+
+                <div class="examples">
+                    <h4>💡 Quick Examples:</h4>
+                    <div class="example-item" onclick="loadExample('login')">
+                        🔐 User login with OTP verification
+                    </div>
+                    <div class="example-item" onclick="loadExample('transfer')">
+                        💸 Transfer money between accounts
+                    </div>
+                    <div class="example-item" onclick="loadExample('payment')">
+                        💳 Pay credit card bill online
+                    </div>
+                </div>
+            </div>
+
+            <div class="output-section">
+                <h2 class="section-title">
+                    <span>✅</span> Generated Test Cases
+                </h2>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Generating test cases using AI...</p>
+                </div>
+
+                <div class="output-content" id="output">
+                    <div style="text-align: center; padding: 3rem; color: #9ca3af;">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">🤖</div>
+                        <p>Test cases will appear here</p>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">Enter a user story and click Generate</p>
+                    </div>
+                </div>
+
+                <div class="stats" id="stats" style="display: none;">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalTests">0</div>
+                        <div class="stat-label">Total Tests</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalSteps">0</div>
+                        <div class="stat-label">Total Steps</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="coverage">0%</div>
+                        <div class="stat-label">Coverage</div>
+                    </div>
+                </div>
+
+                <div class="button-group" style="margin-top: 1rem;">
+                    <button class="btn-secondary" onclick="exportTestCases()" id="exportBtn" style="display: none;">
+                        <span>📥</span> Export as CSV
+                    </button>
+                    <button class="btn-secondary" onclick="copyToClipboard()" id="copyBtn" style="display: none;">
+                        <span>📋</span> Copy to Clipboard
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Created by <a href="https://github.com/TuanChienVu" target="_blank">Tuan Chien Vu</a> | 
+            © 2024 | <a href="https://vutuanchien.dev">vutuanchien.dev</a></p>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Test case generation engine (AI simulation for frontend-only)
+        const testCaseTemplates = {
+            authentication: {
+                functional: [
+                    {
+                        name: "Valid Login Test",
+                        steps: [
+                            "Navigate to login page",
+                            "Enter valid username",
+                            "Enter valid password",
+                            "Click login button",
+                            "Verify successful login and redirect to dashboard"
+                        ],
+                        expected: "User successfully logged in",
+                        priority: "High"
+                    },
+                    {
+                        name: "Invalid Credentials Test",
+                        steps: [
+                            "Navigate to login page",
+                            "Enter invalid username/password",
+                            "Click login button",
+                            "Verify error message appears",
+                            "Verify user remains on login page"
+                        ],
+                        expected: "Error message displayed",
+                        priority: "High"
+                    },
+                    {
+                        name: "Session Timeout Test",
+                        steps: [
+                            "Login successfully",
+                            "Wait for session timeout period",
+                            "Attempt to perform action",
+                            "Verify redirect to login page",
+                            "Verify session expired message"
+                        ],
+                        expected: "User redirected to login after timeout",
+                        priority: "Medium"
+                    }
+                ],
+                security: [
+                    {
+                        name: "SQL Injection Test",
+                        steps: [
+                            "Navigate to login page",
+                            "Enter SQL injection payload in username",
+                            "Submit form",
+                            "Verify no database errors exposed",
+                            "Verify login fails securely"
+                        ],
+                        expected: "Application handles SQL injection safely",
+                        priority: "Critical"
+                    },
+                    {
+                        name: "Brute Force Protection Test",
+                        steps: [
+                            "Attempt login with wrong password 3 times",
+                            "Verify account lockout after threshold",
+                            "Check lockout duration",
+                            "Verify CAPTCHA appears",
+                            "Test unlock mechanism"
+                        ],
+                        expected: "Account locked after failed attempts",
+                        priority: "High"
+                    }
+                ]
+            },
+            transfer: {
+                functional: [
+                    {
+                        name: "Successful Money Transfer",
+                        steps: [
+                            "Login to account",
+                            "Navigate to transfer section",
+                            "Select source account",
+                            "Enter recipient details",
+                            "Enter transfer amount",
+                            "Review transfer details",
+                            "Enter OTP verification",
+                            "Confirm transfer",
+                            "Verify confirmation message",
+                            "Check balance updated"
+                        ],
+                        expected: "Money transferred successfully",
+                        priority: "Critical"
+                    },
+                    {
+                        name: "Insufficient Balance Test",
+                        steps: [
+                            "Login to account with low balance",
+                            "Attempt transfer exceeding balance",
+                            "Verify error message",
+                            "Check balance unchanged",
+                            "Verify transaction not processed"
+                        ],
+                        expected: "Transfer rejected with appropriate message",
+                        priority: "High"
+                    },
+                    {
+                        name: "Transfer Limits Test",
+                        steps: [
+                            "Check daily transfer limit",
+                            "Attempt transfer above limit",
+                            "Verify limit warning",
+                            "Test multiple small transfers",
+                            "Verify cumulative limit enforcement"
+                        ],
+                        expected: "Transfer limits properly enforced",
+                        priority: "High"
+                    }
+                ]
+            },
+            payment: {
+                functional: [
+                    {
+                        name: "Bill Payment Success Test",
+                        steps: [
+                            "Login to account",
+                            "Navigate to bill payment",
+                            "Select biller from list",
+                            "Enter account/reference number",
+                            "Enter payment amount",
+                            "Select payment date",
+                            "Review payment details",
+                            "Confirm payment",
+                            "Verify payment receipt",
+                            "Check payment history"
+                        ],
+                        expected: "Bill paid successfully",
+                        priority: "High"
+                    },
+                    {
+                        name: "Scheduled Payment Test",
+                        steps: [
+                            "Setup recurring payment",
+                            "Set frequency (monthly/weekly)",
+                            "Set start and end dates",
+                            "Verify scheduling confirmation",
+                            "Check scheduled payments list"
+                        ],
+                        expected: "Payment scheduled successfully",
+                        priority: "Medium"
+                    }
+                ]
+            }
+        };
+
+        let generatedTestCases = [];
+
+        function generateTestCases() {
+            const feature = document.getElementById('feature').value;
+            const userStory = document.getElementById('userStory').value;
+            const testType = document.getElementById('testType').value;
+
+            if (!userStory.trim()) {
+                showToast('Please enter a user story', 'error');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('loading').classList.add('active');
+            document.getElementById('output').style.display = 'none';
+
+            // Simulate AI processing
+            setTimeout(() => {
+                // Get test cases based on feature and test type
+                const templates = testCaseTemplates[feature]?.[testType] || 
+                                testCaseTemplates[feature]?.['functional'] || 
+                                generateGenericTestCases(userStory, testType);
+
+                // Enhance test cases with user story context
+                generatedTestCases = enhanceTestCases(templates, userStory, feature, testType);
+
+                // Display results
+                displayTestCases(generatedTestCases);
+
+                // Hide loading
+                document.getElementById('loading').classList.remove('active');
+                document.getElementById('output').style.display = 'block';
+
+                // Update stats
+                updateStats(generatedTestCases);
+
+                // Show export buttons
+                document.getElementById('exportBtn').style.display = 'block';
+                document.getElementById('copyBtn').style.display = 'block';
+
+                showToast('Test cases generated successfully!', 'success');
+            }, 1500);
+        }
+
+        function generateGenericTestCases(userStory, testType) {
+            // Extract key information from user story
+            const actions = extractActions(userStory);
+            
+            return [
+                {
+                    name: `Positive Test - ${actions.primary}`,
+                    steps: [
+                        "Setup test environment",
+                        "Login with valid credentials",
+                        `Navigate to ${actions.feature} section`,
+                        `Perform ${actions.primary} with valid data`,
+                        "Verify successful completion",
+                        "Check data consistency",
+                        "Verify audit logs"
+                    ],
+                    expected: "Operation completed successfully",
+                    priority: "High"
+                },
+                {
+                    name: `Negative Test - Invalid Data`,
+                    steps: [
+                        "Setup test environment",
+                        "Login with valid credentials",
+                        `Navigate to ${actions.feature} section`,
+                        "Enter invalid/incomplete data",
+                        "Attempt to submit",
+                        "Verify appropriate error messages",
+                        "Verify no data corruption"
+                    ],
+                    expected: "Appropriate error handling",
+                    priority: "High"
+                },
+                {
+                    name: `Boundary Test - Edge Cases`,
+                    steps: [
+                        "Test with minimum values",
+                        "Test with maximum values",
+                        "Test with special characters",
+                        "Test with empty values",
+                        "Test with null values",
+                        "Verify proper handling"
+                    ],
+                    expected: "All edge cases handled properly",
+                    priority: "Medium"
+                }
+            ];
+        }
+
+        function extractActions(userStory) {
+            const story = userStory.toLowerCase();
+            let feature = "system";
+            let primary = "action";
+
+            if (story.includes("transfer")) {
+                feature = "transfer";
+                primary = "money transfer";
+            } else if (story.includes("login") || story.includes("authenticate")) {
+                feature = "authentication";
+                primary = "user login";
+            } else if (story.includes("payment") || story.includes("pay")) {
+                feature = "payment";
+                primary = "payment processing";
+            } else if (story.includes("account")) {
+                feature = "account";
+                primary = "account management";
+            }
+
+            return { feature, primary };
+        }
+
+        function enhanceTestCases(templates, userStory, feature, testType) {
+            return templates.map((testCase, index) => ({
+                ...testCase,
+                id: `TC_${feature.toUpperCase()}_${String(index + 1).padStart(3, '0')}`,
+                feature: feature,
+                testType: testType,
+                userStory: userStory,
+                createdDate: new Date().toISOString().split('T')[0],
+                automatable: Math.random() > 0.3 ? 'Yes' : 'Partial'
+            }));
+        }
+
+        function displayTestCases(testCases) {
+            const output = document.getElementById('output');
+            output.innerHTML = '';
+
+            testCases.forEach(tc => {
+                const testCaseDiv = document.createElement('div');
+                testCaseDiv.className = 'test-case';
+                testCaseDiv.innerHTML = `
+                    <h3>${tc.id}: ${tc.name}</h3>
+                    <p><strong>Priority:</strong> <span class="badge" style="background: ${getPriorityColor(tc.priority)}">${tc.priority}</span></p>
+                    <p><strong>Automatable:</strong> ${tc.automatable}</p>
+                    <h4>Test Steps:</h4>
+                    ${tc.steps.map((step, i) => `
+                        <div class="test-step">Step ${i + 1}: ${step}</div>
+                    `).join('')}
+                    <p style="margin-top: 1rem;"><strong>Expected Result:</strong> ${tc.expected}</p>
+                `;
+                output.appendChild(testCaseDiv);
+            });
+        }
+
+        function getPriorityColor(priority) {
+            switch(priority) {
+                case 'Critical': return 'var(--danger)';
+                case 'High': return 'var(--warning)';
+                case 'Medium': return 'var(--info)';
+                default: return 'var(--secondary)';
+            }
+        }
+
+        function updateStats(testCases) {
+            document.getElementById('stats').style.display = 'grid';
+            document.getElementById('totalTests').textContent = testCases.length;
+            
+            const totalSteps = testCases.reduce((sum, tc) => sum + tc.steps.length, 0);
+            document.getElementById('totalSteps').textContent = totalSteps;
+            
+            const coverage = Math.min(100, testCases.length * 25);
+            document.getElementById('coverage').textContent = coverage + '%';
+        }
+
+        function loadExample(type) {
+            const examples = {
+                login: "As a customer, I want to login to my account using OTP verification so that I can securely access my banking services",
+                transfer: "As a customer, I want to transfer money between my accounts so that I can manage my funds efficiently",
+                payment: "As a customer, I want to pay my credit card bill online so that I can avoid late payment fees"
+            };
+
+            document.getElementById('userStory').value = examples[type];
+            
+            if (type === 'login') {
+                document.getElementById('feature').value = 'authentication';
+            } else if (type === 'transfer') {
+                document.getElementById('feature').value = 'transfer';
+            } else if (type === 'payment') {
+                document.getElementById('feature').value = 'payment';
+            }
+        }
+
+        function clearForm() {
+            document.getElementById('userStory').value = '';
+            document.getElementById('output').innerHTML = `
+                <div style="text-align: center; padding: 3rem; color: #9ca3af;">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">🤖</div>
+                    <p>Test cases will appear here</p>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">Enter a user story and click Generate</p>
+                </div>
+            `;
+            document.getElementById('stats').style.display = 'none';
+            document.getElementById('exportBtn').style.display = 'none';
+            document.getElementById('copyBtn').style.display = 'none';
+            generatedTestCases = [];
+        }
+
+        function exportTestCases() {
+            if (generatedTestCases.length === 0) {
+                showToast('No test cases to export', 'error');
+                return;
+            }
+
+            let csv = 'Test ID,Test Name,Priority,Test Type,Steps,Expected Result,Automatable\n';
+            
+            generatedTestCases.forEach(tc => {
+                const steps = tc.steps.join(' | ');
+                csv += `"${tc.id}","${tc.name}","${tc.priority}","${tc.testType}","${steps}","${tc.expected}","${tc.automatable}"\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `test_cases_${new Date().getTime()}.csv`;
+            a.click();
+
+            showToast('Test cases exported successfully!', 'success');
+        }
+
+        function copyToClipboard() {
+            if (generatedTestCases.length === 0) {
+                showToast('No test cases to copy', 'error');
+                return;
+            }
+
+            let text = 'GENERATED TEST CASES\n';
+            text += '===================\n\n';
+
+            generatedTestCases.forEach(tc => {
+                text += `${tc.id}: ${tc.name}\n`;
+                text += `Priority: ${tc.priority}\n`;
+                text += `Test Type: ${tc.testType}\n`;
+                text += `\nTest Steps:\n`;
+                tc.steps.forEach((step, i) => {
+                    text += `  ${i + 1}. ${step}\n`;
+                });
+                text += `\nExpected Result: ${tc.expected}\n`;
+                text += `Automatable: ${tc.automatable}\n`;
+                text += '\n---\n\n';
+            });
+
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Test cases copied to clipboard!', 'success');
+            }).catch(() => {
+                showToast('Failed to copy to clipboard', 'error');
+            });
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type}`;
+            
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Banking Test Case Generator loaded successfully!');
+            
+            // Add Enter key support for generating test cases
+            document.getElementById('userStory').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && e.ctrlKey) {
+                    generateTestCases();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -11,14 +11,12 @@ fi
 
 # Chạy backend
 echo "🔧 Starting backend server..."
-cd backend
-python -m uvicorn app:app --reload --port 8000 &
+python -m uvicorn backend.app:app --reload --port 8000 &
 BACKEND_PID=$!
-cd ..
 
 # Chạy frontend 
 echo "🌐 Starting frontend server..."
-python -m http.server 3000 --directory frontend &
+python -m http.server 3001 --directory frontend &
 FRONTEND_PID=$!
 
 # Expose qua ngrok
@@ -33,9 +31,12 @@ echo "Ngrok PID: $NGROK_PID"
 
 echo ""
 echo "📝 Access your app at:"
-echo "- Frontend: http://localhost:3000"
+echo "- Frontend: http://localhost:3001"
 echo "- Backend: http://localhost:8000"
-echo "- Check ngrok dashboard: http://localhost:4040"
+echo "- API Docs: http://localhost:8000/docs"
+echo ""
+echo "Note: Ngrok requires free account registration at https://ngrok.com"
+echo "After registration, run: ngrok config add-authtoken YOUR_TOKEN"
 
 # Trap để dọn dẹp khi tắt
 trap "kill $BACKEND_PID $FRONTEND_PID $NGROK_PID 2>/dev/null" EXIT
