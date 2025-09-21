@@ -86,3 +86,4 @@ Thumbs.db
 desktop.ini
 model_trained/*.bin
 model_trained/*.safetensors
+model_trained/optimizer.pt
