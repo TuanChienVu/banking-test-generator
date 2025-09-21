@@ -1,0 +1,119 @@
+# Master's Thesis Configuration - Mobile Banking Test Case Generation
+# Academic-grade configuration for 10,000+ high-quality test cases
+
+# Generation Parameters
+seed: 42
+output_dir: "03_data_preparation/dataset_generation/corrected_thesis_dataset"
+logs_dir: "logs"
+reports_dir: "reports"
+
+# Academic Targets for Thesis
+target_user_stories: 200  # Sufficient for comprehensive analysis
+target_test_cases: 12000  # Generate extra to ensure 10k+ after deduplication
+min_test_cases_after_dedup: 10000
+
+# Quality Thresholds (Academic Standards)
+semantic_threshold: 0.65  # Balanced for diversity while maintaining quality
+distribution_tolerance: 0.03
+min_quality_score: 0.75  # Higher standard for academic work
+automation_coverage_min: 0.45
+requirement_coverage_min: 1.00  # Perfect traceability for thesis
+traceability_coverage_min: 0.98
+accessibility_coverage_min: 0.20
+
+# Dataset Splits (ML-ready for academic validation)
+train_ratio: 0.70
+val_ratio: 0.15
+bias_eval_ratio: 0.05
+test_ratio: 0.10
+
+# Language Distribution (Bilingual for international publication)
+language_preference:
+  vi: 0.60  # Vietnamese (primary)
+  en: 0.40  # English (international)
+
+# Mobile Banking Features (Academic Coverage)
+features:
+  fund_transfer:
+    weight: 0.18  # Highest complexity
+    priority: "Critical"
+  login_authentication:
+    weight: 0.15  # Security critical
+    priority: "Critical"
+  security_settings:
+    weight: 0.15  # Security critical
+    priority: "Critical"
+  account_overview:
+    weight: 0.12  # Core functionality
+    priority: "High"
+  bill_payment:
+    weight: 0.12  # Core functionality
+    priority: "High"
+  card_management:
+    weight: 0.10  # Important
+    priority: "High"
+  profile_settings:
+    weight: 0.08  # User management
+    priority: "Medium"
+  beneficiary_management:
+    weight: 0.08  # User management
+    priority: "Medium"
+  mobile_deposits:
+    weight: 0.06  # Advanced feature
+    priority: "Medium"
+  transaction_alerts:
+    weight: 0.06  # Notifications
+    priority: "Low"
+
+# Expert Test Types (Academic Rigor)
+expert_test_types:
+  model_based_testing:
+    enabled: true
+    percentage: 0.15  # 15% MBT tests
+  boundary_value_analysis:
+    enabled: true
+    percentage: 0.10  # 10% boundary tests
+  compliance_testing:
+    enabled: true
+    percentage: 0.20  # 20% compliance tests
+  standard_functional:
+    enabled: true
+    percentage: 0.55  # 55% standard tests
+
+# Compliance Standards (Academic Validation)
+compliance_frameworks:
+  - "PCI-DSS"
+  - "GDPR"
+  - "MASVS"
+  - "ISO27001"
+  - "FFIEC"
+  - "Basel III"
+
+# Automation Frameworks (Industry Standard)
+automation_frameworks:
+  mobile: ["Appium", "Espresso", "XCUITest"]
+  web: ["Selenium", "Playwright", "Cypress"]
+  api: ["REST_Assured", "Postman", "Newman"]
+
+# Academic Validation Settings
+validation:
+  enable_statistical_analysis: true
+  enable_quality_metrics: true
+  enable_traceability_matrix: true
+  enable_coverage_analysis: true
+  generate_academic_reports: true
+
+# Export Formats (Academic & Industry)
+export_formats:
+  - "jsonl"
+  - "parquet"
+  - "csv"
+  - "excel"  # For academic review
+
+# Logging (Detailed for thesis documentation)
+logging:
+  level: "INFO"
+  enable_file_logging: true
+  enable_console_logging: true
+  log_generation_details: true
+  log_quality_metrics: true

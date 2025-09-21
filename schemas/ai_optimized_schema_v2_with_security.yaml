@@ -1,0 +1,288 @@
+# AI-Optimized Schema v2 - With Smart Security Integration
+# Purpose: Balance between simplicity for AI training and security coverage
+# Version: 2.0
+# Last Updated: 2024
+
+# ==================================================
+# CORE FEATURES & DISTRIBUTION
+# ==================================================
+features:
+  supported:
+    - login_authentication
+    - fund_transfer
+    - bill_payment
+    - account_balance
+    - transaction_history
+    - card_management
+    - profile_management
+    - beneficiary_management
+    - notification_settings
+    - support_help
+    
+  distribution:
+    login_authentication: 0.12
+    fund_transfer: 0.15
+    bill_payment: 0.10
+    account_balance: 0.08
+    transaction_history: 0.08
+    card_management: 0.10
+    profile_management: 0.08
+    beneficiary_management: 0.12
+    notification_settings: 0.07
+    support_help: 0.10
+
+# ==================================================
+# SCENARIO TYPES - ENHANCED WITH SECURITY
+# ==================================================
+scenario_types:
+  positive:
+    weight: 0.35  # Reduced from 0.40
+    description: "Happy path - normal user flows"
+    examples:
+      - "Successful login with valid credentials"
+      - "Complete fund transfer within limits"
+      
+  negative:
+    weight: 0.20
+    description: "Error handling and invalid inputs"
+    examples:
+      - "Login with invalid password"
+      - "Transfer exceeding daily limit"
+      
+  security:  # ← NEW CATEGORY
+    weight: 0.25
+    description: "Security validation and compliance scenarios"
+    subtypes:
+      authentication_security:
+        patterns:
+          - "Test session timeout after {X} minutes"
+          - "Verify account lockout after {N} failed attempts"
+          - "Validate 2FA/MFA implementation"
+          - "Test password complexity requirements"
+          
+      data_privacy:  # GDPR aligned
+        patterns:
+          - "Verify PII data encryption in transit"
+          - "Test data masking in logs"
+          - "Validate consent management"
+          - "Check right to data deletion"
+          
+      payment_security:  # PCI-DSS aligned
+        patterns:
+          - "Verify card data tokenization"
+          - "Test CVV not stored"
+          - "Validate SSL/TLS for transactions"
+          - "Check transaction signing"
+          
+      mobile_security:  # MASVS aligned
+        patterns:
+          - "Test jailbreak/root detection"
+          - "Verify certificate pinning"
+          - "Check anti-tampering measures"
+          - "Validate secure storage"
+          
+  edge:
+    weight: 0.20  # Increased from 0.15
+    description: "Boundary conditions and edge cases"
+    examples:
+      - "Transfer exactly at limit"
+      - "Special characters in input"
+
+# ==================================================
+# SECURITY-AWARE INPUT TEMPLATES
+# ==================================================
+input_schema:
+  templates:
+    # Basic templates (existing)
+    - "Create a {scenario_type} test case for {feature}"
+    - "Generate test scenario for {feature} with {priority} priority"
+    - "Test {action} functionality in mobile banking app"
+    
+    # Security-focused templates (NEW)
+    - "Create security test for {feature} validating {security_aspect}"
+    - "Generate {compliance_standard} compliance test for {feature}"
+    - "Test {feature} against {attack_vector}"
+    
+  security_aspects:  # NEW
+    - "authentication bypass"
+    - "data leakage"
+    - "session hijacking"
+    - "SQL injection"
+    - "privilege escalation"
+    
+  compliance_standards:  # NEW - Referenced but not detailed
+    - "GDPR"
+    - "PCI-DSS"
+    - "ISO-27001"
+    - "MASVS"
+
+# ==================================================
+# OUTPUT SCHEMA - ENHANCED
+# ==================================================
+output_schema:
+  required_fields:
+    - test_case_id
+    - title
+    - feature
+    - scenario_type
+    - priority
+    - preconditions
+    - test_steps
+    - expected_result
+    
+  optional_fields:  # NEW
+    - security_validations  # When scenario_type == 'security'
+    - compliance_checks     # When relevant
+    - risk_level           # HIGH/MEDIUM/LOW
+    
+  security_validations:  # NEW
+    format: "list"
+    examples:
+      - "Verify SSL certificate is valid"
+      - "Check session token in headers"
+      - "Validate input sanitization"
+      - "Confirm audit log created"
+      
+  test_steps:
+    format: "gherkin"
+    security_enhanced_example:  # NEW
+      - "Given user is on login page with secure connection"
+      - "And session monitoring is active"
+      - "When user enters valid credentials"
+      - "And 2FA code is provided"
+      - "Then user is authenticated successfully"
+      - "And session token is generated with 30-min expiry"
+      - "And login attempt is logged in audit trail"
+
+# ==================================================
+# QUALITY CRITERIA - WITH SECURITY METRICS
+# ==================================================
+quality_criteria:
+  functional_criteria:  # Existing
+    - step_clarity: "Each step is clear and actionable"
+    - measurable_result: "Expected results are verifiable"
+    - complete_coverage: "All paths tested"
+    
+  security_criteria:  # NEW
+    - security_coverage: "Relevant security checks included"
+    - compliance_alignment: "Addresses compliance requirements"
+    - risk_mitigation: "Tests for known vulnerabilities"
+    
+  scoring:
+    base_score: 0.4
+    bonuses:
+      has_clear_steps: +0.15
+      has_measurable_results: +0.15
+      includes_security: +0.20  # NEW - Big bonus for security
+      addresses_compliance: +0.10  # NEW
+      
+  requirements:
+    min_quality_score: 0.70
+    min_security_coverage: 0.20  # NEW - At least 20% must have security
+    avg_quality_score: 0.85
+
+# ==================================================
+# DATASET CONFIGURATION
+# ==================================================
+dataset_config:
+  total_samples: 10000
+  
+  distribution_by_type:
+    positive: 3500      # 35%
+    negative: 2000      # 20%
+    security: 2500      # 25% - NEW emphasis on security
+    edge: 2000          # 20%
+    
+  security_distribution:  # NEW - How security cases are distributed
+    authentication: 800   # 32% of security cases
+    data_privacy: 600    # 24%
+    payment_security: 700 # 28%
+    mobile_security: 400 # 16%
+    
+  splits:
+    train: 0.70         # 7,000 samples
+    validation: 0.15    # 1,500 samples
+    test: 0.15          # 1,500 samples
+
+# ==================================================
+# TRAINING OPTIMIZATION
+# ==================================================
+training_optimization:
+  parameters:
+    learning_approach: "supervised_finetuning"
+    base_model: "llama2-7b or gpt-3.5"
+    
+  focus_areas:
+    - "Natural language understanding"
+    - "Security awareness"  # NEW
+    - "Compliance alignment"  # NEW
+    - "Domain expertise (banking)"
+    
+  validation_strategy:
+    - "Functional correctness"
+    - "Security coverage"  # NEW
+    - "Compliance check"  # NEW
+
+# ==================================================
+# EVALUATION METRICS - ENHANCED
+# ==================================================
+evaluation_metrics:
+  functional_metrics:  # Existing
+    - accuracy: "How correct are test cases"
+    - completeness: "Coverage of requirements"
+    - clarity: "How clear are test steps"
+    
+  security_metrics:  # NEW
+    - security_coverage: "% of cases with security validations"
+    - vulnerability_detection: "Known vulnerabilities tested"
+    - compliance_alignment: "Standards addressed"
+    
+  targets:
+    functional_accuracy: 0.85
+    security_coverage: 0.75  # NEW
+    compliance_alignment: 0.80  # NEW
+
+# ==================================================
+# COMPLIANCE REFERENCE (Lightweight)
+# ==================================================
+compliance_reference:  # NEW - Just references, not full specs
+  note: "AI doesn't need full specs, just awareness"
+  
+  standards:
+    ISO_27001:
+      focus: "Information security management"
+      key_areas: ["Access control", "Cryptography", "Incident management"]
+      
+    GDPR:
+      focus: "Data protection and privacy"
+      key_areas: ["Consent", "Data minimization", "Right to deletion"]
+      
+    PCI_DSS:
+      focus: "Payment card security"
+      key_areas: ["Cardholder data protection", "Access control", "Monitoring"]
+      
+    MASVS:
+      focus: "Mobile application security"
+      key_areas: ["Data storage", "Cryptography", "Authentication", "Network"]
+
+# ==================================================
+# IMPLEMENTATION NOTES
+# ==================================================
+implementation_notes:
+  security_integration:
+    - "Security is embedded in content, not structure"
+    - "25% dedicated security scenarios ensures coverage"
+    - "Compliance mentioned where relevant, not everywhere"
+    - "Focus on practical security, not theoretical"
+    
+  why_this_approach:
+    - "Simpler than 700+ lines compliance schema"
+    - "AI learns security naturally through examples"
+    - "Measurable security coverage"
+    - "Industry-aligned without overhead"
+    
+  success_criteria:
+    - "Every payment test mentions encryption"
+    - "Every auth test checks session security"
+    - "No sensitive data in logs across all tests"
+    - "Compliance naturally addressed without forcing"

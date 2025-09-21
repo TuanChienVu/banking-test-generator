@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI-powered test case generator for mobile banking applications using fine-tuned language models">
+    <title>Banking Test Case Generator | AI-Powered Testing</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Main Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="40" height="40" rx="8" fill="url(#logo-gradient)"/>
+                        <path d="M20 10L25 15L20 20L15 15L20 10Z" fill="white" fill-opacity="0.9"/>
+                        <path d="M20 20L25 25L20 30L15 25L20 20Z" fill="white" fill-opacity="0.7"/>
+                        <defs>
+                            <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40">
+                                <stop stop-color="#667eea"/>
+                                <stop offset="1" stop-color="#764ba2"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span>Banking Test Generator</span>
+                </div>
+                <nav class="nav">
+                    <span class="nav-item">Powered by Your Fine-tuned Model</span>
+                    <span class="badge">8 Epochs • 8000+ Samples</span>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1 class="hero-title">
+                AI-Powered Test Case Generation
+                <span class="gradient-text">for Mobile Banking</span>
+            </h1>
+            <p class="hero-subtitle">
+                Generate comprehensive test cases using advanced language models fine-tuned on banking domain data
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="grid">
+                <!-- Input Panel -->
+                <div class="panel input-panel">
+                    <div class="panel-header">
+                        <h2>Input Configuration</h2>
+                        <button class="btn-icon" id="clearBtn" title="Clear all inputs">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="userStory">User Story</label>
+                        <div class="input-wrapper">
+                            <textarea 
+                                id="userStory" 
+                                placeholder="As a [user type], I want to [action] so that [benefit]..."
+                                rows="4"
+                            ></textarea>
+                            <span class="char-count" id="charCount">0 / 500</span>
+                        </div>
+                        <div class="input-help">
+                            Format: "As a [role], I want to [action] so that [benefit]"
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="testType">Test Type</label>
+                            <select id="testType">
+                                <option value="functional">Functional Testing</option>
+                                <option value="security">Security Testing</option>
+                                <option value="performance">Performance Testing</option>
+                                <option value="compliance">Compliance Testing</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="maxLength">Max Length</label>
+                            <div class="slider-container">
+                                <input type="range" id="maxLength" min="50" max="200" value="150" class="slider">
+                                <span class="slider-value" id="sliderValue">150</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="useTemplate" checked>
+                            <span>Use Template Mode (faster generation)</span>
+                        </label>
+                    </div>
+
+                    <!-- Sample User Stories -->
+                    <div class="samples">
+                        <div class="samples-header">Complete User Story Examples (All Features)</div>
+                        <div class="sample-chips">
+                            <!-- Authentication & Security -->
+                            <button class="chip" data-story="As a banking customer, I want to login using biometric authentication (fingerprint or Face ID) so that I can access my account quickly and securely without remembering passwords">
+                                🔐 Biometric Authentication
+                            </button>
+                            <button class="chip" data-story="As a security-conscious user, I want to enable two-factor authentication (2FA) with SMS OTP so that my account has an additional layer of protection against unauthorized access">
+                                🔒 Two-Factor Auth (2FA)
+                            </button>
+                            
+                            <!-- Money Transfer -->
+                            <button class="chip" data-story="As an account holder, I want to transfer money between my own accounts instantly so that I can manage my funds across different account types efficiently">
+                                💸 Internal Transfer
+                            </button>
+                            <button class="chip" data-story="As a customer, I want to send money to other bank accounts using account number and routing code so that I can pay individuals or businesses at different banks">
+                                💳 External Transfer
+                            </button>
+                            
+                            <!-- Account Management -->
+                            <button class="chip" data-story="As a user, I want to view my current account balance and available credit in real-time so that I can make informed financial decisions">
+                                💰 Balance Inquiry
+                            </button>
+                            <button class="chip" data-story="As an account holder, I want to view my transaction history for the last 90 days with filters so that I can track my spending patterns and verify transactions">
+                                📊 Transaction History
+                            </button>
+                            
+                            <!-- Bill Payments -->
+                            <button class="chip" data-story="As a customer, I want to pay my utility bills (electricity, water, internet) directly from the app so that I can avoid late fees and save time">
+                                📱 Utility Bill Payment
+                            </button>
+                            <button class="chip" data-story="As a user, I want to schedule recurring bill payments on specific dates so that my regular bills are paid automatically without manual intervention">
+                                🔄 Recurring Payments
+                            </button>
+                            
+                            <!-- Card Management -->
+                            <button class="chip" data-story="As a cardholder, I want to temporarily block my debit/credit card instantly so that I can prevent unauthorized use if my card is misplaced">
+                                🚫 Card Blocking
+                            </button>
+                            <button class="chip" data-story="As a customer, I want to set spending limits and merchant restrictions on my cards so that I can control my expenses and prevent fraud">
+                                ⚙️ Card Controls
+                            </button>
+                            
+                            <!-- Notifications & Alerts -->
+                            <button class="chip" data-story="As a user, I want to receive real-time push notifications for all transactions above $100 so that I can immediately detect any unauthorized activity">
+                                🔔 Transaction Alerts
+                            </button>
+                            <button class="chip" data-story="As an account holder, I want to customize my notification preferences by transaction type and amount so that I only receive relevant alerts">
+                                📬 Alert Preferences
+                            </button>
+                        </div>
+                    </div>
+
+                    <button id="generateBtn" class="btn btn-primary btn-large">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M10 5V15M5 10H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        Generate Test Case
+                    </button>
+                </div>
+
+                <!-- Output Panel -->
+                <div class="panel output-panel">
+                    <div class="panel-header">
+                        <h2>Generated Test Case</h2>
+                        <div class="panel-actions">
+                            <button class="btn-icon" id="copyBtn" title="Copy to clipboard" disabled>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <rect x="7" y="7" width="9" height="9" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                                    <path d="M4 4H12V12" stroke="currentColor" stroke-width="1.5"/>
+                                </svg>
+                            </button>
+                            <button class="btn-icon" id="downloadBtn" title="Download as file" disabled>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M10 3V13M10 13L6 9M10 13L14 9M3 17H17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Result Area -->
+                    <div id="resultArea" class="result-area">
+                        <div class="empty-state">
+                            <svg width="60" height="60" viewBox="0 0 60 60" fill="none" opacity="0.5">
+                                <rect x="10" y="15" width="40" height="30" rx="3" stroke="currentColor" stroke-width="2"/>
+                                <path d="M20 25H40M20 30H35M20 35H38" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <p>Generated test cases will appear here</p>
+                            <p class="text-muted">Enter a user story and click Generate to begin</p>
+                        </div>
+                    </div>
+
+                    <!-- Metadata -->
+                    <div id="metadata" class="metadata hidden">
+                        <div class="metadata-grid">
+                            <div class="metadata-item">
+                                <span class="metadata-label">Test Type</span>
+                                <span class="metadata-value" id="metaTestType">-</span>
+                            </div>
+                            <div class="metadata-item">
+                                <span class="metadata-label">Confidence</span>
+                                <span class="metadata-value" id="metaConfidence">-</span>
+                            </div>
+                            <div class="metadata-item">
+                                <span class="metadata-label">Generation Time</span>
+                                <span class="metadata-value" id="metaTime">-</span>
+                            </div>
+                            <div class="metadata-item">
+                                <span class="metadata-label">Model</span>
+                                <span class="metadata-value" id="metaModel">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <section class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Domain-Specific</h3>
+                    <p>Trained on 8000+ banking test cases for accurate domain knowledge</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Fast Generation</h3>
+                    <p>Template mode provides instant results with consistent quality</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Security Focus</h3>
+                    <p>Comprehensive security test scenarios for banking applications</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3>Gherkin Format</h3>
+                    <p>Standard BDD format with Given-When-Then structure</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Master's Thesis Project | Generative AI for Testing of Banking Systems</p>
+            <p class="text-muted">Vu Tuan Chien | HUIT | 2024</p>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Configuration -->
+    <script src="config.js"></script>
+    <!-- Main JavaScript -->
+    <script src="app.js"></script>
+</body>
+</html>

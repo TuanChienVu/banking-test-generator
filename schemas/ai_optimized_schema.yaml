@@ -1,0 +1,453 @@
+# ================================================================================
+# AI-OPTIMIZED SCHEMA FOR MOBILE BANKING TEST CASE GENERATION
+# Version: 1.0.0
+# Purpose: Training AI models to generate high-quality test cases
+# Approach: Balance between completeness and simplicity for optimal AI learning
+# ================================================================================
+
+schema_metadata:
+  name: "Mobile Banking Test Generation Schema"
+  version: "1.0.0"
+  created: "2024-01-04"
+  purpose: "AI-optimized schema for training generative models"
+  optimization_principles:
+    - "Simple enough for AI to learn patterns"
+    - "Complete enough to generate quality test cases"
+    - "Focused on essential information only"
+    - "Clear input-output mapping"
+
+# ================================================================================
+# CORE FEATURES (Essential for Mobile Banking)
+# ================================================================================
+features:
+  supported_features:
+    - login_authentication      # User login and authentication
+    - fund_transfer             # Money transfer between accounts
+    - bill_payment              # Bill and utility payments
+    - card_management           # Card control and settings
+    - account_overview          # Account balance and info
+    - transaction_alerts        # Notifications and alerts
+    - beneficiary_management    # Payee management
+    - profile_settings          # User profile configuration
+    - security_settings         # Security and privacy
+    - mobile_deposits           # Check deposits via mobile
+  
+  # Distribution weights for balanced dataset
+  feature_distribution:
+    login_authentication: 0.12
+    fund_transfer: 0.15
+    bill_payment: 0.10
+    card_management: 0.10
+    account_overview: 0.10
+    transaction_alerts: 0.08
+    beneficiary_management: 0.08
+    profile_settings: 0.08
+    security_settings: 0.12
+    mobile_deposits: 0.07
+
+# ================================================================================
+# INPUT SCHEMA (What AI receives)
+# ================================================================================
+input_schema:
+  format: "natural_language"
+  structure:
+    primary_components:
+      - action: "What to test"                    # e.g., "Create test for login"
+      - feature: "Banking feature"                # e.g., "fund_transfer"
+      - scenario_type: "Test type"                # e.g., "positive/negative"
+      - priority: "Business priority"             # e.g., "high/medium/low"
+    
+    optional_context:
+      - requirements: "Business requirements"
+      - user_story: "User story if available"
+      - test_focus: "Specific area to test"
+  
+  # Input templates for variety
+  input_templates:
+    - "Create a {scenario_type} test case for {feature}"
+    - "Generate test scenario for {feature} with {priority} priority"
+    - "Write test case to verify {feature} functionality"
+    - "Test specification for {feature} - {scenario_type} scenario"
+    - "QA test case for mobile banking {feature}"
+    - "BDD scenario for {feature} feature"
+    - "Automated test case for {feature}"
+    - "User acceptance test for {feature}"
+    - "Security test for {feature}"
+    - "Performance test for {feature}"
+  
+  # Examples of natural language inputs
+  input_examples:
+    - "Create a positive test case for fund transfer"
+    - "Generate negative test scenario for login authentication with high priority"
+    - "Write test case to verify bill payment functionality"
+    - "Test specification for card management - security scenario"
+    - "QA test case for mobile banking account overview"
+
+# ================================================================================
+# OUTPUT SCHEMA (What AI generates)
+# ================================================================================
+output_schema:
+  # Required fields in generated test case
+  required_fields:
+    test_case_id:
+      type: "string"
+      format: "TC-{FEATURE}-{NUMBER}"
+      example: "TC-FUND-0001"
+      description: "Unique test case identifier"
+    
+    title:
+      type: "string"
+      min_length: 10
+      max_length: 100
+      example: "Verify successful fund transfer with valid inputs"
+      description: "Clear, descriptive test case title"
+    
+    feature:
+      type: "string"
+      enum: ["login_authentication", "fund_transfer", "bill_payment", etc.]
+      description: "Banking feature being tested"
+    
+    scenario_type:
+      type: "string"
+      enum: ["positive", "negative", "edge", "security", "performance"]
+      description: "Type of test scenario"
+    
+    priority:
+      type: "string"
+      enum: ["Critical", "High", "Medium", "Low"]
+      description: "Business priority of test case"
+    
+    preconditions:
+      type: "string"
+      min_length: 20
+      example: "User is logged in with valid session"
+      description: "Prerequisites before test execution"
+    
+    test_steps:
+      type: "array"
+      format: "gherkin"
+      min_items: 3
+      max_items: 10
+      example:
+        - "Given user is on fund transfer page"
+        - "When user enters valid recipient account"
+        - "And user enters amount $100"
+        - "And user confirms transfer"
+        - "Then transfer should be successful"
+        - "And balance should be updated"
+      description: "Clear, executable test steps"
+    
+    expected_result:
+      type: "string"
+      min_length: 30
+      example: "Transfer completed successfully with confirmation number displayed"
+      description: "Measurable expected outcome"
+  
+  # Optional fields for enhanced quality
+  optional_fields:
+    test_data:
+      type: "object"
+      example:
+        amount: 100
+        currency: "USD"
+        account: "123456789"
+      description: "Specific test data if needed"
+    
+    verification_points:
+      type: "array"
+      example:
+        - "Balance decreased by transfer amount"
+        - "Transaction appears in history"
+        - "Confirmation email sent"
+      description: "Additional verification checks"
+
+# ================================================================================
+# TEST SCENARIO TYPES
+# ================================================================================
+scenario_types:
+  positive:
+    description: "Valid inputs and expected behavior"
+    distribution: 0.40
+    characteristics:
+      - "Happy path testing"
+      - "Valid data inputs"
+      - "Expected successful outcomes"
+    
+  negative:
+    description: "Invalid inputs and error handling"
+    distribution: 0.35
+    characteristics:
+      - "Invalid data testing"
+      - "Error message validation"
+      - "Boundary violations"
+    
+  edge:
+    description: "Boundary and edge cases"
+    distribution: 0.15
+    characteristics:
+      - "Boundary value testing"
+      - "Maximum/minimum limits"
+      - "Special characters"
+    
+  security:
+    description: "Security and vulnerability testing"
+    distribution: 0.10
+    characteristics:
+      - "Authentication testing"
+      - "Authorization checks"
+      - "Data protection validation"
+
+# ================================================================================
+# QUALITY CRITERIA FOR GENERATED TEST CASES
+# ================================================================================
+quality_criteria:
+  # What makes a good test case for AI training
+  essential_qualities:
+    clarity:
+      description: "Test steps must be clear and unambiguous"
+      validation:
+        - "No generic phrases like 'perform action'"
+        - "Specific actions like 'click Login button'"
+    
+    executability:
+      description: "Test must be executable by humans or automation"
+      validation:
+        - "Each step is actionable"
+        - "Preconditions are achievable"
+    
+    measurability:
+      description: "Expected results must be measurable"
+      validation:
+        - "No vague outcomes like 'works correctly'"
+        - "Specific outcomes like 'displays error message'"
+    
+    completeness:
+      description: "Test case covers the scenario fully"
+      validation:
+        - "Has preconditions"
+        - "Has 3-10 clear steps"
+        - "Has expected results"
+  
+  # Quality scoring formula
+  quality_score_calculation:
+    base_score: 0.5
+    bonuses:
+      has_clear_steps: +0.2
+      has_measurable_results: +0.2
+      has_proper_preconditions: +0.1
+      uses_gherkin_format: +0.1
+      includes_test_data: +0.05
+      includes_verification: +0.05
+    penalties:
+      generic_text: -0.2
+      vague_results: -0.2
+      missing_preconditions: -0.1
+      too_few_steps: -0.1
+      too_many_steps: -0.1
+
+# ================================================================================
+# DATASET CONFIGURATION
+# ================================================================================
+dataset_config:
+  # Total size and splits
+  total_samples: 10000
+  
+  splits:
+    train: 0.70      # 7,000 samples
+    validation: 0.15 # 1,500 samples
+    test: 0.15       # 1,500 samples
+  
+  # Ensure variety in training data
+  variety_requirements:
+    min_unique_inputs: 0.80     # 80% unique input prompts
+    min_unique_outputs: 0.90    # 90% unique test cases
+    feature_coverage: 1.00       # All features must be covered
+    scenario_coverage: 1.00      # All scenario types covered
+  
+  # Data quality requirements
+  quality_requirements:
+    min_quality_score: 0.70      # Minimum quality per sample
+    avg_quality_score: 0.85      # Average quality target
+    max_generic_content: 0.05    # Max 5% generic text allowed
+
+# ================================================================================
+# TRAINING OPTIMIZATION
+# ================================================================================
+training_optimization:
+  # Recommendations for AI model training
+  model_requirements:
+    input_max_length: 200        # Max tokens for input
+    output_max_length: 500       # Max tokens for output
+    vocabulary_size: "moderate"  # Not too complex
+    
+  training_strategy:
+    approach: "fine-tuning"      # Fine-tune pre-trained model
+    base_model: "GPT/T5/BERT"    # Recommended base models
+    epochs: "3-5"                # Avoid overfitting
+    batch_size: "8-16"          # Based on GPU memory
+    learning_rate: 5e-5         # Conservative learning rate
+    
+  evaluation_metrics:
+    - "BLEU score"              # Text similarity
+    - "Semantic similarity"      # Meaning preservation
+    - "Executability rate"       # Can test be executed
+    - "Quality score"            # Custom quality metric
+
+# ================================================================================
+# EXAMPLE TRAINING PAIRS
+# ================================================================================
+training_examples:
+  - input: "Create a positive test case for fund transfer"
+    output: |
+      Test Case: Verify Successful Fund Transfer
+      Test ID: TC-FUND-0001
+      Feature: Fund Transfer
+      Priority: High
+      Scenario: Positive
+      
+      Preconditions:
+        • User is logged into mobile banking app
+        • User has sufficient balance in source account
+        
+      Test Steps:
+        Given user is on fund transfer page
+        And user has balance of $1000 in checking account
+        When user selects recipient account
+        And user enters transfer amount $100
+        And user confirms the transfer
+        Then transfer should be processed successfully
+        And confirmation number should be displayed
+        And balance should show $900
+        
+      Expected Result:
+        • Transfer completed within 3 seconds
+        • Balance updated correctly
+        • Transaction appears in history
+        • Confirmation email sent
+  
+  - input: "Generate negative test for login with high priority"
+    output: |
+      Test Case: Verify Login Fails with Invalid Credentials
+      Test ID: TC-AUTH-0002
+      Feature: Login Authentication
+      Priority: High
+      Scenario: Negative
+      
+      Preconditions:
+        • User is on mobile banking login screen
+        • Network connection is stable
+        
+      Test Steps:
+        Given user is on login page
+        When user enters invalid username "wronguser@test.com"
+        And user enters any password
+        And user taps Login button
+        Then error message "Invalid credentials" should appear
+        And user should remain on login page
+        And login attempt should be logged
+        
+      Expected Result:
+        • Clear error message displayed
+        • No session created
+        • Failed attempt logged in security audit
+        • Account locks after 5 failed attempts
+
+# ================================================================================
+# VALIDATION RULES
+# ================================================================================
+validation_rules:
+  # Input validation
+  input_validation:
+    min_length: 10              # Minimum input length
+    max_length: 200            # Maximum input length
+    must_specify_feature: true  # Feature must be identifiable
+    must_specify_scenario: false # Scenario type is optional
+    
+  # Output validation
+  output_validation:
+    required_sections:
+      - "Test Case"
+      - "Preconditions"
+      - "Test Steps"
+      - "Expected Result"
+    
+    step_requirements:
+      min_steps: 3
+      max_steps: 10
+      format: "gherkin_preferred" # Given/When/Then
+      
+    result_requirements:
+      must_be_specific: true     # No vague outcomes
+      must_be_measurable: true   # Quantifiable results
+      
+  # Quality validation
+  quality_validation:
+    reject_if:
+      - "Contains 'perform action' without specifics"
+      - "Contains 'works correctly' without details"
+      - "Missing preconditions"
+      - "Less than 3 test steps"
+      - "Vague expected results"
+
+# ================================================================================
+# IMPLEMENTATION GUIDE
+# ================================================================================
+implementation_guide:
+  # Step 1: Generate dataset using this schema
+  dataset_generation:
+    - "Use schema to create 10,000 training samples"
+    - "Ensure distribution matches feature_distribution"
+    - "Validate each sample against quality_criteria"
+    - "Create train/val/test splits"
+    
+  # Step 2: Train AI model
+  model_training:
+    - "Preprocess data according to input/output schema"
+    - "Fine-tune pre-trained language model"
+    - "Monitor validation loss for early stopping"
+    - "Evaluate with quality metrics"
+    
+  # Step 3: Deploy and iterate
+  deployment:
+    - "Test with diverse inputs"
+    - "Measure quality scores"
+    - "Iterate on weak areas"
+    - "Continuous improvement"
+
+# ================================================================================
+# SUCCESS METRICS
+# ================================================================================
+success_metrics:
+  # How to measure if schema is working
+  dataset_metrics:
+    quality_score: ">= 0.85"           # Average quality
+    diversity_score: ">= 0.80"         # Input/output diversity
+    coverage_score: "100%"              # Feature coverage
+    
+  model_metrics:
+    generation_quality: ">= 0.80"      # Quality of generated tests
+    semantic_accuracy: ">= 0.85"       # Meaning preservation
+    executability_rate: ">= 0.90"      # Can be executed
+    
+  business_metrics:
+    time_saved: ">= 70%"               # vs manual creation
+    defect_detection: ">= baseline"    # Same or better than manual
+    team_satisfaction: ">= 4/5"        # User satisfaction
+
+# ================================================================================
+# NOTES
+# ================================================================================
+notes: |
+  This schema is optimized for AI training with focus on:
+  1. Simplicity - Easy for AI to learn patterns
+  2. Quality - Generates executable test cases
+  3. Completeness - Covers all essential information
+  4. Flexibility - Natural language inputs
+  5. Measurability - Clear quality metrics
+  
+  Key differences from complex schemas:
+  - Removed unnecessary compliance details
+  - Simplified to essential fields only
+  - Focus on input-output mapping
+  - Clear quality criteria
+  - Practical implementation guide
