@@ -1,0 +1,29 @@
+{
+  "name": "Banking Test Case Generator",
+  "description": "AI-powered test case generator for banking applications",
+  "repository": "https://github.com/TuanChienVu/banking-test-generator",
+  "keywords": ["python", "fastapi", "ai", "testing", "banking"],
+  "stack": "heroku-24",
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ],
+  "addons": [],
+  "env": {
+    "PYTHON_VERSION": {
+      "description": "Python version to use",
+      "value": "3.11.10"
+    },
+    "MODEL_PATH": {
+      "description": "Path to AI model",
+      "value": "model_trained"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: banking-test-generator
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.app:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.10
+      - key: MODEL_PATH
+        value: model_trained
+    autoDeploy: true
+    region: singapore  # Gần Việt Nam nhất
